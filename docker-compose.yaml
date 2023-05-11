@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  database_money:
+    container_name: database_money
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: 'admin'
+      POSTGRES_PASSWORD: 'pgsadmin'
+      POSTGRES_DB: 'the_money'
+    volumes:
+      - ./portfolio_manager/database_money/postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  quote_downloader:
+    build: quote_downloader/
+    image: quote_downloader:latest
+    container_name: quote_downloader
+    restart: always
+    depends_on: 
+      - database_money
+  portfolio_api:
+    container_name: portfolio_api
+    restart: always
+    build: portfolio_api/
+    expose:
+      - 9090
+    depends_on:
+      - database_money
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 9050:9050
+    depends_on:
+      - portfolio_api

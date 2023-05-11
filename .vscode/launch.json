@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File - dash",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/portfolio_dashboard/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Current File - downloader",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/quote_downloader/quotes_downloader.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "API",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "portfolio_api.service.app:app",
+                "--host", "0.0.0.0",
+                "--reload",
+                "--port", "8000"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
